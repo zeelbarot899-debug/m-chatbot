@@ -1,21 +1,16 @@
 {
-  "builds": [
+  "rewrites": [
     {
-      "src": "app.py",
-      "use": "@vercel/python"
-    }
-  ],
-  "routes": [
-    {
-      "src": "/(.*\\.(?:html|css|js))",
-      "headers": {
-        "cache-control": "public, max-age=0, must-revalidate"
-      },
-      "continue": true
+      "source": "/webhook/chat",
+      "destination": "/api/index"
     },
     {
-      "src": "/(.*)",
-      "dest": "app.py"
+      "source": "/debug/retrieve",
+      "destination": "/api/index"
+    },
+    {
+      "source": "/health",
+      "destination": "/api/index"
     }
   ]
 }
