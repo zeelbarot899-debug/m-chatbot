@@ -30,7 +30,7 @@ OPENROUTER_API_KEY = os.environ.get("OPENROUTER_API_KEY")
 # one specific model. Override via env var if you want to pin a specific model,
 # e.g. OPENROUTER_MODEL=anthropic/claude-3.5-sonnet or any other slug.
 OPENROUTER_MODEL = os.environ.get("OPENROUTER_MODEL", "openrouter/free")
-OPENROUTER_TEMPERATURE = float(os.environ.get("OPENROUTER_TEMPERATURE", "0.3"))
+OPENROUTER_TEMPERATURE = float(os.environ.get("OPENROUTER_TEMPERATURE", "0.8"))
 OPENROUTER_MAX_TOKENS = int(os.environ.get("OPENROUTER_MAX_TOKENS", "250"))
 
 PINECONE_API_KEY = os.environ.get("PINECONE_API_KEY")
