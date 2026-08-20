@@ -18,7 +18,8 @@ app = Flask(__name__)
 ALLOWED_ORIGINS = [
     "extraordinary-puffpuff-751ad7.netlify.app",
     "https://digitaldb.in",
-    "http://localhost:8000"
+    "http://localhost:8000",
+    "https://m-chatbot-seven.vercel.app"
 ]
 CORS(app, resources={r"/*": {"origins": ALLOWED_ORIGINS}})
 
