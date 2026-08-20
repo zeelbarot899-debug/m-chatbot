@@ -16,7 +16,7 @@ app = Flask(__name__)
 # Only allow requests from your actual site - replace this with your real domain(s).
 # Include both with and without "www." if your site uses either.
 ALLOWED_ORIGINS = [
-    "https://mellow-kitten-67de2d.netlify.app/",
+    "https://extraordinary-puffpuff-751ad7.netlify.app",
     "https://digitaldb.in",
     "http://localhost:8000"
 ]
