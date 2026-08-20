@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Meesho Assistant — Chat Widget Demo</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ============================================================
+     DEMO PAGE BACKDROP
+     Replace this section with your actual site. The widget below
+     is self-contained and can be dropped into any page.
+     ============================================================ -->
+<main class="demo-page">
+  <div class="demo-page__inner">
+    <span class="demo-eyebrow">Widget preview</span>
+    <h1 class="demo-title">Your storefront lives here</h1>
+    <p class="demo-copy">
+      This is a placeholder page so you can see how the Meesho Assistant
+      widget sits on top of real content. Open the chat bubble in the
+      bottom-right corner to try it.
+    </p>
+  </div>
+</main>
+
+<!-- ============================================================
+     CHAT WIDGET
+     ============================================================ -->
+<div id="meesho-widget">
+
+  <!-- Floating launcher -->
+  <button id="mw-launcher" type="button" aria-expanded="false" aria-controls="mw-panel" aria-label="Open Meesho Assistant chat">
+    <span class="mw-launcher__ring"></span>
+    <svg class="mw-launcher__icon mw-icon-chat" width="26" height="26" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M4 5.5C4 4.67 4.67 4 5.5 4h13c.83 0 1.5.67 1.5 1.5v10c0 .83-.67 1.5-1.5 1.5H9l-4 3.5v-3.5H5.5C4.67 17 4 16.33 4 15.5v-10Z" fill="currentColor"/>
+    </svg>
+    <svg class="mw-launcher__icon mw-icon-close" width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M5 5l14 14M19 5L5 19" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/>
+    </svg>
+  </button>
+
+  <!-- Chat panel -->
+  <section id="mw-panel" role="dialog" aria-label="Meesho Assistant chat" aria-hidden="true">
+
+    <header class="mw-header">
+      <div class="mw-header__brand">
+        <span class="mw-badge">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M4 8.5 12 4l8 4.5v7L12 20l-8-4.5v-7Z" stroke="white" stroke-width="1.6" stroke-linejoin="round"/>
+            <circle cx="12" cy="12" r="1.6" fill="white"/>
+          </svg>
+        </span>
+        <div class="mw-header__text">
+          <p class="mw-header__title">Meesho Assistant</p>
+          <p class="mw-header__status"><span class="mw-dot"></span>Online — replies in seconds</p>
+        </div>
+      </div>
+      <button id="mw-close" type="button" aria-label="Close chat">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M5 5l14 14M19 5L5 19" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
+        </svg>
+      </button>
+      <span class="mw-header__stitch" aria-hidden="true"></span>
+    </header>
+
+    <div class="mw-thread" id="mw-thread" aria-live="polite">
+      <!-- messages injected by script.js -->
+    </div>
+
+    <div class="mw-quickrow" id="mw-quickrow">
+      <button type="button" class="mw-chip" data-prompt="Is this product available in my size?">Check availability</button>
+      <button type="button" class="mw-chip" data-prompt="What is your return policy?">Return policy</button>
+      <button type="button" class="mw-chip" data-prompt="How long does delivery usually take?">Delivery time</button>
+    </div>
+
+    <form id="mw-form" class="mw-inputbar" autocomplete="off">
+      <input
+        id="mw-input"
+        type="text"
+        name="message"
+        placeholder="Ask about a product, order or delivery…"
+        aria-label="Type your message"
+        maxlength="500"
+      />
+      <button type="submit" id="mw-send" aria-label="Send message">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M3.5 12 20 4l-6.5 16-2.7-7L3.5 12Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" stroke-linecap="round"/>
+        </svg>
+      </button>
+    </form>
+
+    <p class="mw-footnote">Answers are based on current listings and may not reflect real-time stock changes.</p>
+  </section>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
+
+from pinecone import Pinecone, ServerlessSpec
+
+pc = Pinecone(api_key="pcsk_36drzf_ErghsTRqX3EvkjAe6SD4DRWtkYPVEqTkNbbbYLonMVuYDdHn5ztfarbBgnpkiYg")
+
+# Delete the old one
+pc.delete_index("chatbot")
+
+# Recreate with the correct dimension for your embedding model
+pc.create_index(
+    name="chatbot",
+    dimension=384,
+    metric="cosine",
+    spec=ServerlessSpec(cloud="aws", region="us-east-1")
+)
+from pypdf import PdfReader
+from pinecone import Pinecone
+from sentence_transformers import SentenceTransformer
+
+# ---------- CONFIG ----------
+PINECONE_API_KEY = "pcsk_36drzf_ErghsTRqX3EvkjAe6SD4DRWtkYPVEqTkNbbbYLonMVuYDdHn5ztfarbBgnpkiYg"
+PINECONE_INDEX_NAME = "chatbot"
+PDF_PATH ="C:/Users/ZEEL/Desktop/chatbot/chatbot data.pdf"  # local path to your PDF
+
+# ---------- 1. Extract text from PDF ----------
+def extract_text(pdf_path):
+    reader = PdfReader(pdf_path)
+    return "\n".join(page.extract_text() or "" for page in reader.pages)
+
+# ---------- 2. Chunk the text ----------
+def chunk_text(text, chunk_size=1000, overlap=200):
+    chunks = []
+    start = 0
+    while start < len(text):
+        chunks.append(text[start:start + chunk_size])
+        start += chunk_size - overlap
+    return [c for c in chunks if c.strip()]
+
+# ---------- 3. Embed locally (free, no API key needed) ----------
+embedder = SentenceTransformer("all-MiniLM-L6-v2")  # 384-dim output
+
+def embed_chunks(chunks):
+    return embedder.encode(chunks, show_progress_bar=True).tolist()
+
+# ---------- 4. Upload to Pinecone ----------
+def upload_to_pinecone(chunks, embeddings, doc_id="doc1"):
+    pc = Pinecone(api_key=PINECONE_API_KEY)
+    index = pc.Index(PINECONE_INDEX_NAME)
+
+    vectors = [
+        {
+            "id": f"{doc_id}-chunk-{i}",
+            "values": emb,
+            "metadata": {"text": chunk, "source": doc_id}
+        }
+        for i, (chunk, emb) in enumerate(zip(chunks, embeddings))
+    ]
+
+    batch_size = 100
+    for i in range(0, len(vectors), batch_size):
+        index.upsert(vectors=vectors[i:i + batch_size])
+
+    print(f"Uploaded {len(vectors)} chunks to Pinecone.")
+
+# ---------- MAIN ----------
+if __name__ == "__main__":
+    text = extract_text(PDF_PATH)
+    chunks = chunk_text(text)
+    embeddings = embed_chunks(chunks)
+    upload_to_pinecone(chunks, embeddings, doc_id="doc1")
