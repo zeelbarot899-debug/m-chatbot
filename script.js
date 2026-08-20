@@ -2,7 +2,7 @@
    CONFIG — point this at your deployed Flask backend
    ============================================================ */
 const MW_CONFIG = {
-  apiUrl: "https://m-chatbot-seven.vercel.app/webhook/chat", // <-- change this
+  apiUrl: "fetch("/webhook/chat", ...)", // <-- change this
   welcomeMessage:
     "Hi! I'm the Meesho Assistant. Ask me about a product, its availability, pricing, delivery time, or your order — I'll do my best to help.",
 };
