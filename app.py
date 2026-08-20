@@ -15,12 +15,7 @@ app = Flask(__name__)
 
 # Only allow requests from your actual site - replace this with your real domain(s).
 # Include both with and without "www." if your site uses either.
-ALLOWED_ORIGINS = [
-    "extraordinary-puffpuff-751ad7.netlify.app",
-    "https://digitaldb.in",
-    "http://localhost:8000"
-]
-CORS(app, resources={r"/*": {"origins": ALLOWED_ORIGINS}})
+CORS(app)
 
 # ---- CONFIG (set these as environment variables on your host) ----
 OPENROUTER_API_KEY = os.environ.get("OPENROUTER_API_KEY")
