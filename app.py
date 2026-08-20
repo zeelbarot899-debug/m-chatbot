@@ -30,12 +30,12 @@ OPENROUTER_API_KEY = os.environ.get("OPENROUTER_API_KEY")
 # one specific model. Override via env var if you want to pin a specific model,
 # e.g. OPENROUTER_MODEL=anthropic/claude-3.5-sonnet or any other slug.
 OPENROUTER_MODEL = os.environ.get("OPENROUTER_MODEL", "openrouter/free")
-OPENROUTER_TEMPERATURE = float(os.environ.get("OPENROUTER_TEMPERATURE", "0.2"))
-OPENROUTER_MAX_TOKENS = int(os.environ.get("OPENROUTER_MAX_TOKENS", "150"))
+OPENROUTER_TEMPERATURE = float(os.environ.get("OPENROUTER_TEMPERATURE", "0.3"))
+OPENROUTER_MAX_TOKENS = int(os.environ.get("OPENROUTER_MAX_TOKENS", "250"))
 
 PINECONE_API_KEY = os.environ.get("PINECONE_API_KEY")
 PINECONE_INDEX_HOST = os.environ.get("PINECONE_INDEX_HOST")  # e.g. https://medical-chatbot-xxxx.svc.xxxx.pinecone.io
-PINECONE_TOP_K = int(os.environ.get("PINECONE_TOP_K", "4"))
+PINECONE_TOP_K = int(os.environ.get("PINECONE_TOP_K", "5"))
 
 HF_TOKEN = os.environ.get("HF_TOKEN")  # Hugging Face token for embeddings
 HF_EMBEDDING_MODEL = "sentence-transformers/all-MiniLM-L6-v2"
