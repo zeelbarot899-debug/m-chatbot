@@ -1,15 +1,7 @@
 {
   "rewrites": [
     {
-      "source": "/webhook/chat",
-      "destination": "/api/index"
-    },
-    {
-      "source": "/debug/retrieve",
-      "destination": "/api/index"
-    },
-    {
-      "source": "/health",
+      "source": "/(.*)",
       "destination": "/api/index"
     }
   ]
